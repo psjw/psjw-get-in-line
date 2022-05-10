@@ -1,30 +1,45 @@
 package com.psjw.getinline.controller;
 
+import com.psjw.getinline.constant.PlaceType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
     @GetMapping("/places")
-    public String adminPlaces(){
-        return "admin/places";
+    public ModelAndView adminPlaces(
+            PlaceType placeType,
+            String placeName,
+            String address
+    ) {
+//        PlaceType.COMMON.name() 을 기준으로 동작
+        //@RequestParam(생략가능) -> required 값이 false
+        Map<String, Object> map = new HashMap<>();
+        map.put("placeType", placeType);
+        map.put("placeName", placeName);
+        map.put("address", address);
+        return new ModelAndView("admin/places", map);
     }
 
     @GetMapping("/places/{placeId}")
-    public String adminPlaceDetail(@PathVariable Integer placeId){
+    public String adminPlaceDetail(@PathVariable Integer placeId) {
         return "admin/place-detail";
     }
 
     @GetMapping("/event")
-    public String adminEvents(){
+    public String adminEvents() {
         return "admin/events";
     }
 
     @GetMapping("/events/{eventId}")
-    public String adminEventDetail(@PathVariable Integer eventId){
+    public String adminEventDetail(@PathVariable Integer eventId) {
         return "admin/event-detail";
     }
 }
